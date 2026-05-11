@@ -1,0 +1,147 @@
+---
+name: battery-engineering-pack-sizing
+description: Battery engineering for pack sizing and topology selection. Use when Claude needs to calculate Wh and Ah, compare 12V, 24V, 48V, or custom buses, choose chemistry including common 3.7V lithium-ion, recommend SxP topology, and sanity-check runtime, current, reserve, and preliminary BMS assumptions for low-voltage battery systems.
+---
+
+# Battery Engineering Pack Sizing
+
+Part of the Battery Engineering Bundle. Use this skill to turn a vague backup-power request into a preliminary battery-pack recommendation. Keep the scope to low-voltage planning math and architecture tradeoffs, not final electrical approval or hazardous assembly instructions. When the user also needs BMS, fuse, or wire sizing, follow with the companion bundle skill `battery-engineering-protection`.
+
+## Safety Boundary
+
+- Treat every result as preliminary engineering only.
+- Do not provide build steps that bypass BMS, charger protections, fusing, thermal monitoring, or cell-matching requirements.
+- Escalate when the request involves mains wiring, grid interconnect, certified life-safety loads, medical loads, or packs above 60 VDC nominal.
+- State clearly when a licensed electrician, battery engineer, or product compliance review is required.
+
+## Workflow
+
+1. Define the load side first.
+   - AC via inverter or UPS
+   - Native DC rail
+   - Mixed-use system
+2. Collect the minimum inputs.
+   - Continuous load in watts
+   - Surge load in watts if motors or compressors are involved
+   - Required runtime
+   - Preferred bus class: 12V, 24V, 48V, or a custom target
+   - Cell or module nominal voltage, capacity in Ah, and continuous current rating
+   - Chemistry preference, efficiency, max depth of discharge, reserve margin
+3. Choose the chemistry before the exact topology.
+   - Default to LFP for UPS, backup power, and workshop systems.
+   - Use `li-ion` for common 3.7 V lithium-ion cylindrical or pouch cells when the exact subtype is not specified.
+   - Consider NMC only when weight or volume matters more than cycle life and thermal simplicity.
+   - Use LTO only for extreme cycle life, fast charging, or cold conditions.
+   - Treat lead-acid as a legacy or cost-driven option with shallower usable depth of discharge.
+4. Choose the bus class.
+   - Keep 12V for small legacy loads and low-power automotive-style systems.
+   - Start with 24V for mixed-use DC systems and sub-1 kW backup systems.
+   - Move to 48V when inverter power or cable current becomes high.
+   - Read [references/topologies.md](references/topologies.md) when the user needs a bus-level tradeoff analysis.
+5. Size the pack from both energy and current.
+   - Energy determines minimum parallel count for runtime.
+   - Continuous and surge current determine minimum parallel count for power delivery.
+   - Use the larger result; do not size from Wh alone.
+6. Sanity-check the recommendation.
+   - Verify BMS current headroom, fuse or breaker planning, thermal monitoring, charger compatibility, enclosure constraints, and serviceability.
+   - Call out when the design becomes current-limited or when the pack is heavily oversized on energy because the bus voltage is too low.
+7. Return a short decision report.
+   - Recommended chemistry
+   - Recommended bus class and SxP topology
+   - Required pack energy and expected usable energy
+   - Current draw at nominal voltage
+   - Key safety or validation follow-ups
+
+## Calculator
+
+Use the bundled calculator for deterministic sizing:
+
+```bash
+python3 scripts/battery_pack_calc.py --help
+```
+
+Add `--json` if another tool or agent needs machine-readable output.
+
+### Common Examples
+
+Compare common bus classes for a 600 W UPS with 45 minutes of runtime using LFP cells:
+
+```bash
+python3 scripts/battery_pack_calc.py \
+  --use-case ups \
+  --load-w 600 \
+  --surge-w 900 \
+  --runtime-min 45 \
+  --chemistry lfp \
+  --cell-capacity-ah 5 \
+  --cell-continuous-a 10 \
+  --cell-peak-a 15 \
+  --compare-common-buses
+```
+
+Size a fixed 48 V class LFP pack for an inverter-heavy setup:
+
+```bash
+python3 scripts/battery_pack_calc.py \
+  --use-case inverter \
+  --load-w 1500 \
+  --surge-w 2500 \
+  --runtime-min 30 \
+  --chemistry lfp \
+  --bus-class 48 \
+  --cell-capacity-ah 100 \
+  --cell-continuous-a 100
+```
+
+Size a custom bus voltage with explicit cell voltage:
+
+```bash
+python3 scripts/battery_pack_calc.py \
+  --use-case dc-backup \
+  --load-w 180 \
+  --runtime-h 3 \
+  --target-bus-v 12 \
+  --chemistry li-ion \
+  --cell-capacity-ah 3 \
+  --cell-continuous-a 10
+```
+
+### Interpretation Rules
+
+- If current, not runtime, drives the parallel count, prefer a higher bus class before blindly adding more parallel strings.
+- If the pack energy is much larger than the design energy, the system is likely bus-voltage-limited rather than runtime-limited.
+- For UPS or inverter requests above roughly 1 kW continuous, compare 48 V even if 24 V still works on paper.
+- For legacy 12 V loads, keep the battery bus and the regulated output stage separate in the analysis.
+
+## References
+
+- Read [references/formulas.md](references/formulas.md) when you need the exact sizing equations and assumption order.
+- Read [references/topologies.md](references/topologies.md) when you need use-case guidance for UPS, DC backup, portable power, or bench supplies.
+
+## Output Format
+
+Use this default structure unless the user asks for something else:
+
+```text
+Recommendation
+- Use case:
+- Recommended chemistry:
+- Recommended topology:
+- Why this topology:
+
+Sizing summary
+- Continuous load:
+- Surge load:
+- Required runtime:
+- Design energy:
+- Pack nominal voltage:
+- Required pack current:
+- Minimum parallel count by energy:
+- Minimum parallel count by current:
+
+Open checks
+- BMS / fuse headroom:
+- Charger profile:
+- Thermal and enclosure constraints:
+- Validation still required:
+```

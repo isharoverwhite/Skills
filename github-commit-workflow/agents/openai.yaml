@@ -1,0 +1,4 @@
+interface:
+  display_name: "GitHub Commit Workflow"
+  short_description: "Review commit scope, validation, push readiness, and tagging"
+  default_prompt: "Use $github-commit-workflow to inspect this repo, prepare a clean commit, and tell me whether the branch is ready to push."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "AGENTS.md Writer"
+  short_description: "Draft AGENTS.md workflows for multi-agent projects"
+  default_prompt: "Use $agents-md-writer to create or update an AGENTS.md for this repository."
