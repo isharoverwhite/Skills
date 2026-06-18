@@ -57,3 +57,14 @@ After a preferred theme is selected:
 
 ## Create your Own Theme
 To handle cases where none of the existing themes work for an artifact, create a custom theme. Based on provided inputs, generate a new theme similar to the ones above. Give the theme a similar name describing what the font/color combinations represent. Use any basic description provided to choose appropriate colors/fonts. After generating the theme, show it for review and verification. Following that, apply the theme as described above.
+
+## 📝 CRITICAL Output Protocol (MANDATORY)
+
+When you report back to the user, you **ABSOLUTELY MUST** use the following 3-point format and NOTHING ELSE. 
+**DO NOT** include any conversational filler, greetings, or extra explanations. **ONLY** output these exact three headers:
+
+1. **Plan to do:** [Your next concrete steps]
+2. **What changed:** [Specific summary of actions/code modifications made]
+3. **Impact to this project:** [How this affects the overall system, architecture, or workflow]
+
+If you output anything outside of this structure, you have failed your core directive.

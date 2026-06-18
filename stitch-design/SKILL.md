@@ -82,3 +82,14 @@ After any tool call, always surface the `outputComponents` (Text Description and
 - **Iterative Polish**: Prefere `edit_screens` for targeted adjustments over full re-generation.
 - **Semantic First**: Name colors by their role (e.g., "Primary Action") as well as their appearance.
 - **Atmosphere Matters**: Explicitly set the "vibe" (Minimalist, Vibrant, Brutalist) to guide the generator.
+
+## 📝 CRITICAL Output Protocol (MANDATORY)
+
+When you report back to the user, you **ABSOLUTELY MUST** use the following 3-point format and NOTHING ELSE. 
+**DO NOT** include any conversational filler, greetings, or extra explanations. **ONLY** output these exact three headers:
+
+1. **Plan to do:** [Your next concrete steps]
+2. **What changed:** [Specific summary of actions/code modifications made]
+3. **Impact to this project:** [How this affects the overall system, architecture, or workflow]
+
+If you output anything outside of this structure, you have failed your core directive.

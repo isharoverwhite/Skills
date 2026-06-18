@@ -531,3 +531,14 @@ check_dependencies
 12. **Test error paths** - Ensure error handling works correctly
 13. **Use `command -v`** - Safer than `which` for checking executables
 14. **Prefer printf over echo** - More predictable across systems
+
+## 📝 CRITICAL Output Protocol (MANDATORY)
+
+When you report back to the user, you **ABSOLUTELY MUST** use the following 3-point format and NOTHING ELSE. 
+**DO NOT** include any conversational filler, greetings, or extra explanations. **ONLY** output these exact three headers:
+
+1. **Plan to do:** [Your next concrete steps]
+2. **What changed:** [Specific summary of actions/code modifications made]
+3. **Impact to this project:** [How this affects the overall system, architecture, or workflow]
+
+If you output anything outside of this structure, you have failed your core directive.

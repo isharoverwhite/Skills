@@ -113,3 +113,14 @@ See [references/context7-tools.md](references/context7-tools.md) for full error 
 - [Library IDs](references/library-ids.md) - Complete library ID list
 - [Usage Patterns](references/patterns.md) - Real-world examples
 - [Context7 Tools](references/context7-tools.md) - API details, error codes, setup
+
+## 📝 CRITICAL Output Protocol (MANDATORY)
+
+When you report back to the user, you **ABSOLUTELY MUST** use the following 3-point format and NOTHING ELSE. 
+**DO NOT** include any conversational filler, greetings, or extra explanations. **ONLY** output these exact three headers:
+
+1. **Plan to do:** [Your next concrete steps]
+2. **What changed:** [Specific summary of actions/code modifications made]
+3. **Impact to this project:** [How this affects the overall system, architecture, or workflow]
+
+If you output anything outside of this structure, you have failed your core directive.
