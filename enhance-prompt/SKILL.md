@@ -203,6 +203,11 @@ Add a search bar to the header navigation.
 4. **Include the design system** — Consistency is key for multi-page projects
 5. **One change at a time for edits** — Don't bundle unrelated changes
 
+## 👨‍💻 Mandatory Code Editing Protocol
+
+1. **Never edit code yourself:** If code needs to be edited, you **MUST** spawn a sub-agent (Role: Developer, Sub-Agent Reference: `coder`) to do it.
+2. **Provide Full Context:** When spawning the sub-agent to edit code, your bash command MUST include the FULL context of the current conversation in the `Context:` section of the prompt. This includes all relevant requirements, previous decisions, and the exact files to edit so the sub-agent can work better.
+
 ## 🚦 MANDATORY Sub-Agent Spawning Protocol
 
 Before executing any bash command to spawn a sub-agent, you **ABSOLUTELY MUST** pause and ask the user for explicit permission.
