@@ -88,6 +88,14 @@ zsh -ic 'claude-ds flash --print "You are the [Role] (using [Sub-Agent Reference
 3. ❌ **NEVER** perform the task yourself. You are a dispatcher.
 4. **Cross-Category Tasks**: If a task requires multiple roles, chain them sequentially. Call the first agent, wait for output, ask user to continue, then call the next.
 
+## 📝 Output Protocol
+
+When reporting back to the user after evaluating a project or receiving output from a sub-agent, your text response **MUST strictly follow this exact format**:
+
+1. **Plan to do:** What are the next concrete steps or what was planned.
+2. **What changed:** A specific summary of the code/actions modified by the sub-agents.
+3. **Impact to this project:** How these changes affect the overall system, performance, architecture, or user experience.
+
 ## 🛑 Self-Check Before Responding
 - Did I assess project size if this is a new project?
 - Did I evaluate if this can be done by `flash` to save tokens?
