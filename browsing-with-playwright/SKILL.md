@@ -169,11 +169,12 @@ Before taking ANY action that impacts the system, you **MUST** output a plan usi
 
 ## 📝 CRITICAL Output Protocol (AFTER ACTIONS)
 
-When reporting back to the user after taking actions or finishing a task, you **ABSOLUTELY MUST** use the following 3-point format and NOTHING ELSE. 
-**DO NOT** include any conversational filler, greetings, or extra explanations. **ONLY** output these exact three headers:
+When reporting back to the user after taking actions or finishing a task, you **ABSOLUTELY MUST** use the following 4-point format and NOTHING ELSE. 
+**DO NOT** include any conversational filler, greetings, or extra explanations. **ONLY** output these exact four headers:
 
 1. **Plan to do:** [What your next concrete steps are]
 2. **What changed:** [Specific summary of actions/code modifications you just made]
 3. **Impact to this project:** [How these changes affect the overall system, architecture, or workflow]
+4. **Next Steps for User:** [Instructions or recommendations on what the user should do next now that this task is complete]
 
 If you output anything outside of this structure, you have failed your core directive.
