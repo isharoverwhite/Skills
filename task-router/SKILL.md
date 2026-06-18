@@ -47,23 +47,13 @@ Based on **FR clarity** and **workflow stability**, select the methodology.
 
 ## 🏢 Phase 3: IT Department Roles & Model Selection
 
-To optimize token usage and cost, separate tasks into roles and assign the appropriate model. 
-- **FLASH** (`deepseek-v4-flash`): Fast, low cost. Best for lightweight tasks, reading logs, drafting docs, basic support.
-- **PRO** (`deepseek-v4-pro`): High reasoning, higher cost. Best for complex architecture, deep debugging, writing critical code, or security reviews.
+To optimize token usage and cost, separate tasks into roles and assign the appropriate model (`pro` vs `flash`).
 
-### Role & Model Guidelines
+### 📚 MANDATORY: Read the Routing Table Reference
 
-| Role | Mission Profile | Sub-Agent Reference | Required Model |
-|------|----------------|---------------------|----------------|
-| **Developer** | Writing code, refactoring, implementing features. | `coder` | `pro` |
-| **Developer (Light)** | Formatting, basic unit tests, code review. | `coder` | `flash` |
-| **QA / Tester** | Designing test plans, finding edge cases. | `tester` | `pro` |
-| **QA (Light)** | Running tests, summarizing test reports. | `tester` | `flash` |
-| **DevOps** | CI/CD pipelines, IaC, security, architecture. | `project-analysis` | `pro` |
-| **DevOps (Light)** | Checking logs, restarting services. | `project-analysis` | `flash` |
-| **Architect** | System design, schema, tech selection. | `planner` | `pro` |
-| **IT Support** | Docs, user queries, troubleshooting. | `doc-author` | `flash` |
-| **Project Manager**| Writing tickets, scoping, summaries. | `product-manager`| `flash` |
+You **ABSOLUTELY MUST** read the `references/routing-table.md` file (located in your skill directory) to determine the exact sub-agent and model to use. 
+
+Do not guess the sub-agent names. You must cross-reference the keywords of the user's request with the `routing-table.md` to ensure you are routing to the correct agent (e.g., `coder`, `tester`, `planner`) and using the exact `Bash Flag` (`pro` or `flash`) dictated by the table.
 
 ## 🚨 MANDATORY: Delegation Protocol
 
