@@ -482,6 +482,16 @@ Required dependencies (should already be installed):
 - **LibreOffice**: `sudo apt-get install libreoffice` (for PDF conversion)
 - **Poppler**: `sudo apt-get install poppler-utils` (for pdftoppm to convert PDF to images)
 - **defusedxml**: `pip install defusedxml` (for secure XML parsing)
+## 🚦 MANDATORY Sub-Agent Spawning Protocol
+
+Before executing any bash command to spawn a sub-agent, you **ABSOLUTELY MUST** pause and ask the user for explicit permission.
+You must output:
+1. **Sub-Agent Role:** [e.g., Developer, QA, Architect]
+2. **Model:** [`pro` or `flash`]
+3. **Purpose:** [Explain exactly why you are spawning them and the task they will perform]
+
+DO NOT execute the bash command to spawn the sub-agent until the user explicitly approves.
+
 ## 🛑 STRICT RULE: ZERO IMPACT WITHOUT A PLAN
 
 You are strictly forbidden from modifying ANY file, running ANY destructive command, or writing ANY code until you have presented a plan and the user has explicitly approved it. 
