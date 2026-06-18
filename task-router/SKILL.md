@@ -82,11 +82,19 @@ zsh -ic 'claude-ds pro --print "You are the [Role] (using [Sub-Agent Reference] 
 zsh -ic 'claude-ds flash --print "You are the [Role] (using [Sub-Agent Reference] skills). Your task is: [Task]. Context: [Context]"'
 ```
 
+**For PARALLEL execution of multiple independent tasks:**
+Determine the difficulty of each individual task to optimize token usage (`pro` for complex, `flash` for lightweight). Spawn them simultaneously in the background and `wait` for all to finish:
+```bash
+zsh -ic 'claude-ds pro --print "You are the Developer... [Complex Task 1]"' &
+zsh -ic 'claude-ds flash --print "You are the QA... [Simple Task 2]"' &
+wait
+```
+
 ### Constraints & Anti-Patterns
 1. ❌ **NEVER** just output the role or model without running Bash.
 2. ❌ **NEVER** write the Bash command in a markdown code block for the user to run. You must run it yourself.
 3. ❌ **NEVER** perform the task yourself. You are a dispatcher.
-4. **Cross-Category Tasks**: If a task requires multiple roles, chain them sequentially. Call the first agent, wait for output, ask user to continue, then call the next.
+4. **Task Dependencies:** If tasks depend on each other, chain them sequentially. If they are independent, spawn them in PARALLEL using `&` and `wait` to save time. Assign `pro` or `flash` on a PER-TASK basis.
 
 ## 📋 MANDATORY Planning Protocol (BEFORE CODING)
 
