@@ -1,46 +1,46 @@
-# Task Routing Reference
+# IT Department Task Routing Reference
 
-> 🚨 **QUAN TRỌNG**: Bảng này chỉ dùng để tra cứu agent+model trước khi chạy Bash. Mọi routing PHẢI thông qua lệnh `claude-ds [pro|flash] --print "..."`. Không được phép chỉ output text.
+> 🚨 **CRITICAL**: This directory is your official routing table. You must use it to cross-reference tasks with the appropriate IT Role, Sub-Agent Reference, and Bash Flag (`pro` or `flash`). You MUST route tasks via the bash command `claude-ds [pro|flash] --print "..."`.
 
-## Agent → Model Mapping
+## 🏢 IT Department Directory
 
-| Agent | Model | Bash Flag | Cost Profile |
-|-------|-------|-----------|--------------|
-| `coder` | `deepseek-v4-pro` | `pro` | 🔴 Code generation needs deep reasoning |
-| `tester` | `deepseek-v4-pro` | `pro` | 🔴 Test design needs high reasoning |
-| `planner` | `deepseek-v4-pro` | `pro` | 🔴 Architecture decisions impact entire system |
-| `doc-author` | `deepseek-v4-flash` | `flash` | 🟢 Text generation, lightweight |
-| `product-manager` | `deepseek-v4-flash` | `flash` | 🟢 Business writing, requirements |
-| `project-analysis` | `deepseek-v4-flash` | `flash` | 🟢 Static code reading, pattern matching |
+| IT Role | Sub-Agent Reference | Bash Flag | Cost Profile | Description |
+|---------|---------------------|-----------|--------------|-------------|
+| **Developer** | `coder` | `pro` | 🔴 High | Code generation, complex refactoring, API building. |
+| **QA / Tester** | `tester` | `pro` | 🔴 High | Designing robust test suites, deep debugging, regression. |
+| **Architect** | `planner` | `pro` | 🔴 High | System design, schema design, architecture, tech stack selection. |
+| **Doc-Writer** | `doc-author` | `flash` | 🟢 Low | Documentation, READMEs, changelogs, user manuals. |
+| **Project Manager** | `product-manager` | `flash` | 🟢 Low | Scoping, requirements gathering, PRDs, user stories. |
+| **DevOps / SysAdmin** | `project-analysis` | `flash` | 🟢 Low | Codebase scanning, tech stack analysis, structure mapping. |
 
-## Keyword-to-Agent Mapping
+## 🔑 Keyword-to-Role Mapping
 
-### coder → `claude-ds pro`
+### Developer (`coder` / `pro`)
 implement, write code, build, create widget, add feature, fix bug, refactor, develop, code, function, class, method, API endpoint, route, screen, page, component, controller, provider, bloc, cubit, service, repository, model, DTO, helper, utility, migration, script, command
 
-### tester → `claude-ds pro`
+### QA / Tester (`tester` / `pro`)
 test, unit test, widget test, integration test, coverage, mock, mockito, mocktail, assert, verify, expect, debug, bug fix, test failure, flaky, MissingPluginException, pumpAndSettle, finder, test doubles, fake, stub, spy, test coverage, regression
 
-### doc-author → `claude-ds flash`
+### Doc-Writer (`doc-author` / `flash`)
 document, docs, readme, PDF, DOCX, write doc, guide, manual, specification, report, export, print, changelog, release notes, API docs, user manual, setup guide, contributing, license, README, markdown, documentation site
 
-### planner → `claude-ds pro`
+### Architect (`planner` / `pro`)
 plan, architecture, design doc, schema, roadmap, sprint, timeline, milestone, structure, tech design, proposal, breakdown, epic, story points, estimation, dependency graph, system design, data flow, ERD, UML, sequence diagram, migration plan, rollback plan
 
-### product-manager → `claude-ds flash`
+### Project Manager (`product-manager` / `flash`)
 requirement, user story, feature request, PRD, scope, priorities, backlog, stakeholder, roadmap, product spec, acceptance criteria, MVP, OKR, KPI, business value, user research, A/B test, launch plan, go-to-market, competitive analysis
 
-### project-analysis → `claude-ds flash`
+### DevOps / SysAdmin (`project-analysis` / `flash`)
 analyze project, tech stack, coding style, language, dependencies, framework, structure, patterns, what is this project, code base overview
 
-## Multi-Category Tasks
+## 🔀 Multi-Category Workflow (Sequencing)
 
-> 🚨 Với task đa lĩnh vực: chạy Bash đến agent CHÍNH trước, rồi báo user về agent phụ. Không được liệt kê suông.
+> 🚨 **CRITICAL**: For tasks spanning multiple IT domains, you MUST chain them sequentially using bash commands. Do not spawn them in parallel if they depend on each other.
 
-| Task Pattern | Bash #1 | Bash #2 | Bash #3 |
+| Task Pattern | Step 1 | Step 2 | Step 3 |
 |-------------|---------|---------|---------|
-| Build feature + write tests | `claude-ds pro` → `coder` | `claude-ds pro` → `tester` | — |
-| Plan feature + write PRD | `claude-ds flash` → `product-manager` | `claude-ds pro` → `planner` | — |
-| Design architecture + document | `claude-ds pro` → `planner` | `claude-ds flash` → `doc-author` | — |
-| Requirements → planning → coding | `claude-ds flash` → `product-manager` | `claude-ds pro` → `planner` | `claude-ds pro` → `coder` |
-| Build + test + document | `claude-ds pro` → `coder` | `claude-ds pro` → `tester` | `claude-ds flash` → `doc-author` |
+| Build feature + write tests | `pro` → `coder` | `pro` → `tester` | — |
+| Plan feature + write PRD | `flash` → `product-manager` | `pro` → `planner` | — |
+| Design architecture + document | `pro` → `planner` | `flash` → `doc-author` | — |
+| Requirements → planning → coding | `flash` → `product-manager` | `pro` → `planner` | `pro` → `coder` |
+| Build + test + document | `pro` → `coder` | `pro` → `tester` | `flash` → `doc-author` |
